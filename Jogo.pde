@@ -6,48 +6,49 @@ int colunas = 30;
 Cell [][] grid;
 Cell [][] grid1;
 Cell player;
+float moveColdown;
 
 int tempoInicio;
 int duracaoPartida = 120000; // 2 minutos em milissegundos
 int score = 0;
 
+boolean started;
+boolean paused;
+boolean settings;
+
 void setup() {
   frameRate(80);
   size(900, 900);
   
-  linhas /= adm;
-  colunas /= adm;
+  started = false;
+  paused = false;
+  settings = false;
   
-  imgGrama = loadImage("graminha.png");
-  imgGrama.resize(30*adm, 30*adm);
-  imgArvore = loadImage("arvorezinha.png");
-  imgArvore.resize(30*adm, 30*adm);
-  imgJogador = loadImage("bunequinho.png");
-  imgJogador.resize(30*adm, 30*adm);
-  
-  grid1 = new Cell[linhas][colunas];
-  for (int i = 0; i < linhas; i++) {
-    for (int j = 0; j < colunas; j++) {
-      String tipoDaCelula = "grama" ;
-      PImage img = tipoDaCelula.equals("grama")? imgGrama : imgArvore;
-      grid1[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm);
-    }
-  }
-  grid = new Cell[linhas][colunas];
-  for (int i = 0; i < linhas; i++) {
-    for (int j = 0; j < colunas; j++) {
-      String tipoDaCelula = random(1) < 0.9? "grama" : "árvore";
-      PImage img = tipoDaCelula.equals("grama")? imgGrama : imgArvore;
-      grid[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm);
-    }
-  }
-  player = grid[linhas/2][colunas/2];
-  player.tipoDaCelula = "jogador";
-  player.img = imgJogador;
 }
+
 
 void draw(){
   background(255);
+  if(started == false) {
+    //menuAqui
+    if(mousePressed && mouseX > 100) {
+      started = true;
+      duracaoPartida = 120000 + millis();
+      startGame();  
+    }
+    if(settings == true) {
+      //config  
+    }
+    if(mousePressed && mouseX < 100) {
+      exit();
+    }
+    
+  } else if(paused == true) {
+    
+  } else {
+  moveColdown++;
+  
+  //desenhaGrids
   for (int i = 0; i < linhas; i++) {
     for (int j = 0; j < colunas; j++){
       grid1[i][j].display();
@@ -58,10 +59,17 @@ void draw(){
       grid[i][j].display();
     }
   }
+  
+  
   timescore();
+  }
 }
 
 void keyPressed(){
+  if(moveColdown < 8) {
+    return;  
+  }
+  moveColdown = 0;
   int i = int(player.y / (30*adm));
   int j = int(player.x / (30*adm));
   Cell nextCell = null;
@@ -80,6 +88,55 @@ void keyPressed(){
     player = nextCell;
     player.tipoDaCelula = "jogador";
     player.img = imgJogador;
+  }
+}
+
+void startGame() 
+{
+  linhas /= adm;
+  colunas /= adm;
+  
+  preparaSprite();
+  gridDeFundo();
+  gridDeCima();
+  
+  player = grid[linhas/2][colunas/2];
+  player.tipoDaCelula = "jogador";
+  player.img = imgJogador;  
+}
+
+void preparaSprite() 
+{
+  imgGrama = loadImage("graminha.png");
+  imgGrama.resize(30*adm, 30*adm);
+  imgArvore = loadImage("arvorezinha.png");
+  imgArvore.resize(30*adm, 30*adm);
+  imgJogador = loadImage("bunequinho.png");
+  imgJogador.resize(30*adm, 30*adm);
+    
+}
+
+void gridDeFundo() 
+{
+  grid1 = new Cell[linhas][colunas];
+  for (int i = 0; i < linhas; i++) {
+    for (int j = 0; j < colunas; j++) {
+      String tipoDaCelula = "grama" ;
+      PImage img = tipoDaCelula.equals("grama")? imgGrama : imgArvore;
+      grid1[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm);
+    }
+  }  
+}
+
+void gridDeCima() 
+{
+    grid = new Cell[linhas][colunas];
+  for (int i = 0; i < linhas; i++) {
+    for (int j = 0; j < colunas; j++) {
+      String tipoDaCelula = random(1) < 0.9? "grama" : "árvore";
+      PImage img = tipoDaCelula.equals("grama")? imgGrama : imgArvore;
+      grid[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm);
+    }
   }
 }
  

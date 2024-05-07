@@ -1,6 +1,5 @@
 class Item<T> {
   T elemento;
-  Item proximo;
   int valor;
   String nome;
   PImage imagem;
@@ -8,7 +7,6 @@ class Item<T> {
 
   Item(T elemento) {
     this.elemento = elemento;
-    this.proximo = null;
   }
   
   void mostra() {

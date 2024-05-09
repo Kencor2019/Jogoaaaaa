@@ -1,4 +1,4 @@
-PImage imgGrama, imgArvore, imgJogador, imgItem;
+PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause;
 
 int adm = 2;
 int linhas = 30; 
@@ -6,6 +6,7 @@ int colunas = 30;
 Cell [][] grid;
 Cell [][] grid1;
 Cell player;
+Inventory inventario = new Inventory();
 float moveColdown;
 
 int tempoInicio;
@@ -13,8 +14,10 @@ int duracaoPartida = 120000; // 2 minutos em milissegundos
 int score = 0;
 
 boolean started;
-boolean paused;
+boolean paused, jogoPausado;
 boolean settings;
+float startbut, startadder;
+float girar;
 
 void setup() {
   frameRate(80);
@@ -22,14 +25,24 @@ void setup() {
   
   started = false;
   paused = false;
+  jogoPausado = false;
   settings = false;
   
+  imgMenu = loadImage("Menu.png");
+  imgConfig = loadImage("ConfigBut.png");
+  imgStart = loadImage("StartBut.png");
+  imgQuit = loadImage("QuitBut.png");
+  Girar = loadImage("arvorezinha.png");
+  Girar.resize(300, 300);
+  startbut = 200;
 }
 
 
 void draw(){
   background(255);
   if(started == false) {
+    desenhaMenu();
+    
     //menuAqui
     if(mousePressed && mouseX > 100) {
       started = true;
@@ -62,6 +75,13 @@ void draw(){
   
   
   timescore();
+  if(mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
+      jogoPausado = true;
+    }
+    
+    if(jogoPausado == true){
+      inventario.mostra();
+    }
   }
 }
 
@@ -89,6 +109,33 @@ void keyPressed(){
     player.tipoDaCelula = "jogador";
     player.img = imgJogador;
   }
+}
+
+void desenhaMenu() 
+{
+  if(startbut <= 200) { startadder = 5;} else if(startbut > 300) { startadder = -5;}
+    startbut += startadder;
+    image(imgMenu, 0, 0, width, height);
+    image(imgConfig, 100, 550, 200, 200);
+    image(imgQuit, 675, 75, 100, 100);
+    image(imgStart, (width*1/4) - startbut/2,  height/4 -startbut/2, startbut+70, startbut);
+    
+    
+    pushMatrix();
+    translate(500, 500);
+    girar += 5;
+    rotate(girar*PI/100);
+    image(Girar, -75, -75, 150, 150);
+    translate(50, 50);
+    rotate(girar*PI/100);
+    image(Girar, 00, 00, 75, 75);
+    translate(50, 50);
+    rotate(girar*PI/100);
+    image(Girar, 00, 00, 75, 75);
+    translate(50, 50);
+    rotate(girar*PI/100);
+    image(Girar, 00, 00, 75, 75);
+    popMatrix();  
 }
 
 void startGame() 
@@ -142,9 +189,14 @@ void gridDeCima()
  
  void timescore() 
  {
-   int tempoDecorrido = millis() - tempoInicio;
+  int tempoDecorrido = millis() - tempoInicio;
   int tempoRestante = duracaoPartida - tempoDecorrido;
   int segundos = tempoRestante / 1000;
+  imgPause = loadImage("pause.png");
+  
+  fill(255);
+  rect(5, 45, 30, 30);
+  image(imgPause, 5, 45, 30, 30);
   
   textAlign(LEFT);
   textSize(20);

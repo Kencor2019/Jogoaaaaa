@@ -1,55 +1,45 @@
 class Item{
   int valor;
-  String nome;
   String img;
   PImage imagem;
   int tam;
   Item proximo;
   
-
+  
+  //tem que olhar o tamanho dos itens
   Item(int valor) {
     this.proximo = null;
     this.valor = valor;
-    this.tam = 60; 
+    this.tam = 80; 
     if(valor == 1){
-      this.nome = "Cereja";
-      this.imagem = loadImage("Item1.png");
+      this.imagem = loadImage("folha.png");
     }
     if(valor == 2){
-      this.nome = "Laranja";
-      this.imagem = loadImage("Item2.png");
+      this.imagem = loadImage("verde.png");
     }
     if(valor == 3){
-      this.nome = "Morango";
-      this.imagem = loadImage("Item3.png");
+      this.imagem = loadImage("gato.png");
     }
     if(valor == 4){
-      this.nome = "Maçã";
-      this.imagem = loadImage("Item4.png");
+      this.imagem = loadImage("ovo.png");
     }
     if(valor == 5){
-      this.nome = "Limão";
-      this.imagem = loadImage("Item6.png");
+      this.imagem = loadImage("abobora.png");
     }
     if(valor == 6){
-      this.nome = "Espada";
-      this.imagem = loadImage("Item9.png");
+      this.imagem = loadImage("papel.png");
     }
     if(valor == 7){
-      this.nome = "Anel";
-      this.imagem = loadImage("Item10.png");
+      this.imagem = loadImage("cachorro.png");
     }
     if(valor == 8){
-      this.nome = "Flecha";
-      this.imagem = loadImage("Item11.png");
+      this.imagem = loadImage("robo.png");
     }
     if(valor == 9){
-      this.nome = "Arma";
-      this.imagem = loadImage("Item12.png");
+      this.imagem = loadImage("chapeu.png");
     }
     if(valor == 10){
-      this.nome = "Bala";
-      this.imagem = loadImage("Item13.png");
+      this.imagem = loadImage("ET.png");
     }
   }
   

@@ -1,4 +1,4 @@
-PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause;
+PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause, fundoInventario, vent;
 
 int adm = 2;
 int linhas = 30; 
@@ -6,7 +6,7 @@ int colunas = 30;
 Cell [][] grid;
 Cell [][] grid1;
 Cell player;
-Inventory inventario = new Inventory();
+Inventory inventario;
 float moveColdown;
 
 int tempoInicio;
@@ -33,6 +33,9 @@ void setup() {
   imgStart = loadImage("StartBut.png");
   imgQuit = loadImage("QuitBut.png");
   Girar = loadImage("arvorezinha.png");
+  fundoInventario = loadImage("fundoEstrelado.png");
+  vent = loadImage("vent.png");
+  inventario = new Inventory(fundoInventario, vent);
   Girar.resize(300, 300);
   startbut = 200;
 }
@@ -74,13 +77,15 @@ void draw(){
   }
   
   
-  timescore();
-  if(mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
+  if(mousePressed && mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
       jogoPausado = true;
-    }
+  }
     
     if(jogoPausado == true){
       inventario.mostra();
+    }
+    else{
+      timescore();
     }
   }
 }
@@ -195,8 +200,8 @@ void gridDeCima()
   imgPause = loadImage("pause.png");
   
   fill(255);
-  rect(5, 45, 30, 30);
-  image(imgPause, 5, 45, 30, 30);
+  rect(5, 44, 31, 31);
+  image(imgPause, 6, 45, 30, 30);
   
   textAlign(LEFT);
   textSize(20);

@@ -75,21 +75,20 @@ void draw(){
     }
   }
   
-  
-  if(mousePressed && mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
-      jogoPausado = true;
-  }
-    
-    while(jogoPausado == true){
+    if(jogoPausado == true){
       inventario.mostra();
       jogoPausado = inventario.jogoPausado;
-    }
-    println("oi");
+    }else{
       timescore();
-    
+    }
   } 
+  if(mousePressed){
+    if(mousePressed && mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
+        jogoPausado = true;
+    }
+  }
 }
-
+  
 void keyPressed(){
   if(moveColdown < 8) {
     return;  
@@ -201,7 +200,7 @@ void gridDeCima()
   
   fill(255);
   rect(5, 44, 31, 31);
-  image(imgPause, 6, 45, 30, 30);
+  image(imgPause, 1.5, 40, 40, 40);
   inventario = new Inventory(fundoInventario, vent, segundos, score);
   
   textAlign(LEFT);

@@ -35,7 +35,6 @@ void setup() {
   Girar = loadImage("arvorezinha.png");
   fundoInventario = loadImage("fundoEstrelado.png");
   vent = loadImage("vent.png");
-  inventario = new Inventory(fundoInventario, vent);
   Girar.resize(300, 300);
   startbut = 200;
 }
@@ -81,13 +80,14 @@ void draw(){
       jogoPausado = true;
   }
     
-    if(jogoPausado == true){
+    while(jogoPausado == true){
       inventario.mostra();
+      jogoPausado = inventario.jogoPausado;
     }
-    else{
+    println("oi");
       timescore();
-    }
-  }
+    
+  } 
 }
 
 void keyPressed(){
@@ -202,6 +202,7 @@ void gridDeCima()
   fill(255);
   rect(5, 44, 31, 31);
   image(imgPause, 6, 45, 30, 30);
+  inventario = new Inventory(fundoInventario, vent, segundos, score);
   
   textAlign(LEFT);
   textSize(20);

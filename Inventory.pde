@@ -1,17 +1,19 @@
 class Inventory{
   Item cabeca;
   PImage fundo, vent, despause;
-  int tempoDecorrido, score;
+  int score, restante, tempoDecorrido, soma, tempoAoPausar;
   boolean jogoPausado;
   
-  public Inventory(PImage fundo, PImage vent, int tempoDecorrido, int score){
+  public Inventory(PImage fundo, PImage vent, int restante , int score, int tempoDecorrido, int soma){
     this.despause = loadImage("despause.png");
     this.cabeca = null;
     this.fundo = fundo;
     this.vent = vent;
     this.tempoDecorrido = tempoDecorrido;
+    this.restante = restante;
     this.score = score;
     this.jogoPausado = true;
+    this.soma = soma;
   }
   
   public void add(int valor){
@@ -27,17 +29,17 @@ class Inventory{
     }
   }
   
-  public void mostra(){
+  public int mostra(){
     //fundo
-     size(900, 900);
      image(fundo, 0, 0, 900, 900);
      
     //título
-     image(vent, 250, 10, 300, 400);
+     image(vent, 280, 10, 300, 400);
      textSize(90);
      fill(255);
-     text("IN", 350, 330);
-     text("ÁRIO", 640, 330);
+     stroke(255, 0, 0);
+     text("IN", 375, 330);
+     text("ORY", 633, 330);
      
      //painel
      fill(0);
@@ -65,24 +67,26 @@ class Inventory{
     fill(255, 255, 255);
     rect(5, 10, 105, 30);
     fill(0);
-    text("Tempo: " + tempoDecorrido, 10, 30);
+    text("Tempo: " + restante, 10, 30);
     
     textAlign(RIGHT);
     fill(255, 255, 255);
     rect( width - 85, 10, 80, 30);
     fill(0);
     text("Score: " + score, width - 10, 30);
-    despause();
+    
+    tempoAoPausar = millis() - tempoDecorrido + soma;
+    
+    if(mousePressed){
+      if(mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
+        jogoPausado = false; 
+      }
+    }
+    return tempoAoPausar;
   }
   
   public void desenha(){
     
 
-  }
-  
-  void despause(){
-    if(mousePressed && mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
-      jogoPausado = false; 
-    }
   }
 }

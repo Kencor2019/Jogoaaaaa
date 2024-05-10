@@ -9,9 +9,10 @@ Cell player;
 Inventory inventario;
 float moveColdown;
 
-int tempoInicio;
 int duracaoPartida = 120000; // 2 minutos em milissegundos
+int tempoAoPausar;
 int score = 0;
+int tempoDecorrido = 0;
 
 boolean started;
 boolean paused, jogoPausado;
@@ -76,19 +77,19 @@ void draw(){
   }
   
     if(jogoPausado == true){
-      inventario.mostra();
+      tempoAoPausar = inventario.mostra();
       jogoPausado = inventario.jogoPausado;
     }else{
       timescore();
     }
   } 
-  if(mousePressed){
-    if(mousePressed && mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
-        jogoPausado = true;
-    }
-  }
 }
-  
+
+void mousePressed(){
+  if(mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
+        jogoPausado = true;
+   }
+}
 void keyPressed(){
   if(moveColdown < 8) {
     return;  
@@ -193,15 +194,15 @@ void gridDeCima()
  
  void timescore() 
  {
-  int tempoDecorrido = millis() - tempoInicio;
-  int tempoRestante = duracaoPartida - tempoDecorrido;
+  tempoDecorrido = millis();
+  int tempoRestante = duracaoPartida + tempoAoPausar - tempoDecorrido;
   int segundos = tempoRestante / 1000;
   imgPause = loadImage("pause.png");
   
   fill(255);
   rect(5, 44, 31, 31);
   image(imgPause, 1.5, 40, 40, 40);
-  inventario = new Inventory(fundoInventario, vent, segundos, score);
+  inventario = new Inventory(fundoInventario, vent, segundos, score, tempoDecorrido, tempoAoPausar);
   
   textAlign(LEFT);
   textSize(20);
@@ -220,6 +221,7 @@ void gridDeCima()
   if (tempoRestante <= 0) {
     gameOver();
   }  
+  
  }
  
  void gameOver() {

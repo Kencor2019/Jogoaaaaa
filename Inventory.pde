@@ -85,12 +85,6 @@ class Inventory {
 
         
         lista();
-
-        if (mousePressed) {
-            if (mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75) {
-                jogoPausado = false;
-            }
-        }
         return tempoAoPausar;
     }
 

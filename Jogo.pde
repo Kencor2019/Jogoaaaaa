@@ -1,6 +1,6 @@
-PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause, fundoInventario, vent;
+PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause, fundoInventario, vent, telinha, telona, playagain, barraverde, GameOver;
 
-int adm = 2;
+int adm = 3;
 int linhas = 30; 
 int colunas = 30;
 Cell [][] grid;
@@ -9,62 +9,204 @@ Cell player;
 Inventory inventario;
 float moveColdown;
 
-int duracaoPartida = 120000; // 2 minutos em milissegundos
+float finalfoda;
+int tempoInicio = 120000;
+int tempoPausado;
+int duracaoPartida; // 2 minutos em milissegundos
 int tempoAoPausar;
 int score = 0;
 int tempoDecorrido = 0;
+int[] itens = new int[10];
+int segundos = 0;
 
 boolean started;
 boolean paused, jogoPausado;
+int startAnim, telinhaAnim;
 boolean settings;
+boolean ended;
 float startbut, startadder;
 float girar;
 
 void setup() {
-  frameRate(80);
+  frameRate(60);
   size(900, 900);
   
   started = false;
   paused = false;
   jogoPausado = false;
   settings = false;
+  ended = false;
   
+  GameOver = loadImage("GameOver.png");
+  barraverde = loadImage("barraverde.png");
+  playagain = loadImage("playagain.png");
+  telona = loadImage("telona.png");
+  telinha = loadImage("telinha.png");
   imgMenu = loadImage("Menu.png");
   imgConfig = loadImage("ConfigBut.png");
   imgStart = loadImage("StartBut.png");
   imgQuit = loadImage("QuitBut.png");
-  Girar = loadImage("arvorezinha.png");
+  Girar = loadImage("preto.png");
   fundoInventario = loadImage("fundoEstrelado.png");
   vent = loadImage("vent.png");
   Girar.resize(300, 300);
   startbut = 200;
+  
+  inventario = new Inventory(fundoInventario, vent, segundos, score,  tempoDecorrido, tempoAoPausar); 
+  
+  startAnim = 0;
 }
 
 
 void draw(){
-  background(255);
+  background(0);
+  
+  if(ended == true) {
+    background(0);
+    image(imgQuit, 30, 650, 200, 200);
+    image(playagain, 650, 625, 200, 250);
+    image(barraverde, 200, 500, 50*10, 50);
+    image(GameOver, 150, 50, 600, 250);
+    textAlign(LEFT);
+    textSize(50);
+    fill(120, 250, 40);
+    finalfoda += score >= finalfoda? 5 : 0;
+    text("Score: " + score, finalfoda+100, 450);
+    stroke(0);
+    rect(finalfoda+200, 450, 10, 50);
+    rect(210, 510, finalfoda, 28);
+    if(mousePressed && mouseX >= 30 && mouseX <= 230 && mouseY >= 650 && mouseY <= 850) {
+      exit();
+    }
+    if(mousePressed && mouseX >= 650 && mouseX <= 850 && mouseY >= 625 && mouseY <= 825) {
+      started = false;
+      paused = false;
+      jogoPausado = false;
+      settings = false;
+      ended = false;
+  
+      
+      finalfoda = 0;
+      score = 0;
+      linhas = 30;
+      colunas = 30;
+      adm = 3;
+      grid1 = new Cell[linhas][colunas];
+      grid = new Cell[linhas][colunas];
+      
+    }
+    
+  } else {
   if(started == false) {
     desenhaMenu();
     
     //menuAqui
-    if(mousePressed && mouseX > 100) {
+    if(mousePressed && mouseX >= 120 && mouseX <= 425 && mouseY >= 100 && mouseY <= 345) {
       started = true;
-      duracaoPartida = 120000 + millis();
+      duracaoPartida = tempoInicio + millis();
       startGame();  
     }
     if(settings == true) {
-      //config  
+      image(telinha, 85, 0, 950, 1000);
+      image(telona, 350, 550, 100, 100);
+      image(telona, 500, 550, 100, 100);
+      image(telona, 650, 550, 100, 100);
+      textAlign(LEFT);
+      textSize(80);
+      fill(0, 255, 0);
+      text("  1 ", 350, 630);
+      fill(0, 0, 255);
+      text("  2 ", 500, 630);
+      fill(255, 0, 0);
+      text("  3 ", 650, 630);
+      textAlign(LEFT);
+      fill(255);
+      textSize(40);
+      text("Tamanho da grid ->  " + adm, 350, 700);
+      stroke(0);
+      strokeWeight(15);
+      line(350, 530, 750, 530);
+      text("Tempo = " + tempoInicio/60000+":"+((tempoInicio%60000 < 10)? "0" + tempoInicio % 60000 : "30"), 350, 430);
+      textSize(40);
+      image(telona, 350, 450, 100, 50);
+      fill(0, 255, 0);
+      text("2:00", 365, 490);
+      image(telona, 500, 450, 100, 50);
+      fill(0, 125, 125);
+      text("1:30", 515, 490);
+      image(telona, 650, 470, 100, 50);
+      fill(0, 0, 255);
+      text("1:00", 665, 510);
+      image(telona, 650, 400, 100, 50);
+      fill(255, 0, 0);
+      text("0:30", 665, 440);
+      strokeWeight(2);
+      
+    if(mousePressed && mouseX >= 365 && mouseX <= 465 && mouseY >= 450 && mouseY <= 500) {
+      tempoInicio = 120000;
     }
-    if(mousePressed && mouseX < 100) {
+    if(mousePressed && mouseX >= 500 && mouseX <= 600 && mouseY >= 450 && mouseY <= 500) {
+      tempoInicio = 90000;
+    }
+    if(mousePressed && mouseX >= 665 && mouseX <= 765 && mouseY >= 470 && mouseY <= 510) {
+      tempoInicio = 60000;
+    }
+    if(mousePressed && mouseX >= 665 && mouseX <= 765 && mouseY >= 400 && mouseY <= 440) {
+      tempoInicio = 30000;
+    }
+      
+    }
+    if(mousePressed && mouseX >= 685 && mouseX <= 765 && mouseY >= 75 && mouseY <= 145) {
       exit();
     }
     
   } else if(paused == true) {
-    
   } else {
+    
   moveColdown++;
   
   //desenhaGrids
+  desenhaMapa() ;
+  
+  
+  if(jogoPausado == true){
+      tempoAoPausar = inventario.mostra();
+   }else{
+      timescore();
+    }
+    
+  if(startAnim < height) { desenhaMenu(); startAnim += 80;} 
+  }
+  }
+  
+}
+
+void mousePressed(){
+  if( mouseX >= 100 && mouseX <= 300 && mouseY >= 555 && mouseY <= 730 && settings == false) {
+      settings = true;
+    } else if( mouseX >= 100 && mouseX <= 300 && mouseY >= 555 && mouseY <= 730 && settings == true){
+      settings = false;
+    }
+    for(int i = 1; i <= 3; i++) {
+      if( mouseX >= 200 + 150*i && mouseX <= 300 + 150*i && mouseY >= 550 && mouseY <= 650 && settings == true) {
+        adm = i;  
+      }
+    }
+    
+  if(mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75 && jogoPausado == false){
+        jogoPausado = true;
+   } else if (mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75 && jogoPausado ==  true) {
+     jogoPausado = false;  
+   }
+}
+
+void keyPressed(){
+  movePlayer();
+  
+}
+
+void desenhaMapa() 
+{
   for (int i = 0; i < linhas; i++) {
     for (int j = 0; j < colunas; j++){
       grid1[i][j].display();
@@ -74,24 +216,12 @@ void draw(){
     for (int j = 0; j < colunas; j++){
       grid[i][j].display();
     }
-  }
-  
-    if(jogoPausado == true){
-      tempoAoPausar = inventario.mostra();
-      jogoPausado = inventario.jogoPausado;
-    }else{
-      timescore();
-    }
-  } 
+  }    
 }
 
-void mousePressed(){
-  if(mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75){
-        jogoPausado = true;
-   }
-}
-void keyPressed(){
-  if(moveColdown < 8) {
+void movePlayer() 
+{
+  if(moveColdown < 4) {
     return;  
   }
   moveColdown = 0;
@@ -107,27 +237,71 @@ void keyPressed(){
   } else if (keyCode == RIGHT && j < colunas-1) {
     nextCell = grid[i][j+1];
   }
-  if (nextCell!= null &&!nextCell.tipoDaCelula.equals("árvore")) {
+  if (nextCell != null && !nextCell.tipoDaCelula.equals("árvore") && !nextCell.tipoDaCelula.equals("grama")) {
+    if(nextCell.tipoDaCelula.equals("folha")) {
+      itens[0]++;
+    } else if(nextCell.tipoDaCelula.equals("verde")) {
+      itens[1]++;
+    } else if(nextCell.tipoDaCelula.equals("gato")) {
+      itens[2]++;
+    } else if(nextCell.tipoDaCelula.equals("ovo")) {
+      itens[3]++;
+    } else if(nextCell.tipoDaCelula.equals("abobora")) {
+      itens[4]++;
+    } else if(nextCell.tipoDaCelula.equals("papel")) {
+      itens[5]++;
+    } else if(nextCell.tipoDaCelula.equals("cachorro")) {
+      itens[6]++;
+    } else if(nextCell.tipoDaCelula.equals("robo")) {
+      itens[7]++;
+    } else if(nextCell.tipoDaCelula.equals("chapeu")) {
+      itens[8]++;
+    } else if(nextCell.tipoDaCelula.equals("ET")) {
+      itens[9]++;
+    } 
+    
+    inventario.add(nextCell.value);
+    score += nextCell.value;
     player.tipoDaCelula = "grama";
     player.img = imgGrama;
     player = nextCell;
     player.tipoDaCelula = "jogador";
     player.img = imgJogador;
+  } else if(nextCell!= null &&!nextCell.tipoDaCelula.equals("árvore")) {
+    player.tipoDaCelula = "grama";
+    player.img = imgGrama;
+    player = nextCell;
+    player.tipoDaCelula = "jogador";
+    player.img = imgJogador;  
   }
 }
 
 void desenhaMenu() 
-{
+{ 
+   
+   if((startAnim > 0 )) { startAnim -= 40; } 
+   
   if(startbut <= 200) { startadder = 5;} else if(startbut > 300) { startadder = -5;}
     startbut += startadder;
-    image(imgMenu, 0, 0, width, height);
-    image(imgConfig, 100, 550, 200, 200);
-    image(imgQuit, 675, 75, 100, 100);
-    image(imgStart, (width*1/4) - startbut/2,  height/4 -startbut/2, startbut+70, startbut);
+    image(imgMenu, 0, +startAnim, width, height);
+    image(imgQuit, 675, 75+startAnim, 100, 100);
+    starter();
+}
+
+void ender() 
+{
+
+}
+
+void starter() 
+{
+  image(imgStart, (width*1/4) - startbut/2,  height/4 -(startbut/2) +(+startAnim), startbut+70, startbut);
+  image(imgConfig, 100, 550+startAnim, 200, 200);
     
-    
+  if(settings == false) {
+  
     pushMatrix();
-    translate(500, 500);
+    translate(500, 500+startAnim);
     girar += 5;
     rotate(girar*PI/100);
     image(Girar, -75, -75, 150, 150);
@@ -140,7 +314,8 @@ void desenhaMenu()
     translate(50, 50);
     rotate(girar*PI/100);
     image(Girar, 00, 00, 75, 75);
-    popMatrix();  
+    popMatrix();    
+  }
 }
 
 void startGame() 
@@ -161,7 +336,7 @@ void preparaSprite()
 {
   imgGrama = loadImage("graminha.png");
   imgGrama.resize(30*adm, 30*adm);
-  imgArvore = loadImage("arvorezinha.png");
+  imgArvore = loadImage("preto.png");
   imgArvore.resize(30*adm, 30*adm);
   imgJogador = loadImage("bunequinho.png");
   imgJogador.resize(30*adm, 30*adm);
@@ -175,7 +350,7 @@ void gridDeFundo()
     for (int j = 0; j < colunas; j++) {
       String tipoDaCelula = "grama" ;
       PImage img = tipoDaCelula.equals("grama")? imgGrama : imgArvore;
-      grid1[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm);
+      grid1[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm, 0);
     }
   }  
 }
@@ -187,7 +362,7 @@ void gridDeCima()
     for (int j = 0; j < colunas; j++) {
       String tipoDaCelula = random(1) < 0.9? "grama" : "árvore";
       PImage img = tipoDaCelula.equals("grama")? imgGrama : imgArvore;
-      grid[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm);
+      grid[i][j] = new Cell(tipoDaCelula, j * 30 * adm, i * 30 * adm, img, adm, 1);
     }
   }
 }
@@ -196,14 +371,18 @@ void gridDeCima()
  {
   tempoDecorrido = millis();
   int tempoRestante = duracaoPartida + tempoAoPausar - tempoDecorrido;
-  int segundos = tempoRestante / 1000;
+  segundos = tempoRestante / 1000;
+  inventario.restante = segundos;
+  inventario.score = score;
+  inventario.tempoDecorrido = tempoDecorrido;
+  inventario.soma = tempoAoPausar;
+  
   imgPause = loadImage("pause.png");
   
   fill(255);
   rect(5, 44, 31, 31);
   image(imgPause, 1.5, 40, 40, 40);
-  inventario = new Inventory(fundoInventario, vent, segundos, score, tempoDecorrido, tempoAoPausar);
-  
+  ;
   textAlign(LEFT);
   textSize(20);
   fill(255, 255, 255);
@@ -213,7 +392,7 @@ void gridDeCima()
   
   textAlign(RIGHT);
   fill(255, 255, 255);
-  rect( width - 85, 10, 80, 30);
+  rect( width - 105, 10, 100, 30);
   fill(0);
   text("Score: " + score, width - 10, 30);
 
@@ -225,7 +404,7 @@ void gridDeCima()
  }
  
  void gameOver() {
-  background(255);
+   ended = true;
   textAlign(CENTER);
   textSize(30);
   fill(0);

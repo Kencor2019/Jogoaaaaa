@@ -3,7 +3,8 @@ class Inventory {
     PImage fundo, vent, despause;
     public int score, restante, tempoDecorrido, soma, tempoAoPausar;
     int x, y1, y2;
-    public int[] quant;
+    public int[] quant, q, quant2;
+    int[] x2, y3;
 
     Inventory(PImage fundo, PImage vent, int restante, int score, int tempoDecorrido, int soma) {
         this.despause = loadImage("despause.png");
@@ -18,6 +19,16 @@ class Inventory {
         this.y2 = 500;
         this.x = 255;
         this.quant = new int[10];
+        this.x2 = new int[10];
+        this.y3 = new int[10];
+        this.q = new int[10];
+        for (int i = 0; i < 10; i++) {
+            this.q[i] = 0;
+        }
+        this.quant2 = new int[10];
+        for (int i = 0; i < 10; i++) {
+            this.quant2[i] = 0;
+        }
     }
 
     void add(int valor) {
@@ -31,6 +42,7 @@ class Inventory {
             }
             aux.proximo = novoItem;
         }
+        q[valor - 1]++;
     }
 
     int mostra() {
@@ -88,55 +100,38 @@ class Inventory {
         int posicaoY = y1 +2;
        
         while (atual != null) {
-              if (atual.valor == 1) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 2) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 3) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 4) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 5) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 6) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 7) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 8) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 9) {
-                quant[atual.valor - 1]++;
-            } else if (atual.valor == 10) {
-                quant[atual.valor - 1]++;
-            }
-            println("ai" + quant[atual.valor - 1]);
-            if(quant[atual.valor - 1] == 1){
-              println(quant[atual.valor - 1]);
-              desenha(atual.retornaImg(), posicaoX, posicaoY, atual, quant[atual.valor - 1]);
-            }
-            posicaoX += 80;
-            if (posicaoX >= x + 5 * 80) {
-                posicaoX = x + 2;
-                posicaoY = y2 + 2;
+          
+            desenha(atual.retornaImg(), posicaoX, posicaoY, atual);
+            
+            if(quant2[atual.valor - 1] == 1){
+              posicaoX += 80;
+              if (posicaoX >= x + 5 * 80) {
+                  posicaoX = x + 2;
+                  posicaoY = y2 + 2;
+              }
             }
             atual = atual.proximo;
         }
     }
 
-    void desenha(PImage imgItem, int x, int y, Item atual, int quant) {
-      int x2 = 0, y3 = 0;
-      if(quant == 1){
-        image(imgItem, x, y, 70, 70);
-        x2 = x;
-        y3 = y;
-      }else{
-        image(imgItem, x2, y3, 70, 70);
-      }
-        if(mouseX >= x && mouseX <= x + 70 && mouseY>= y  && mouseY <= 70 +y){
-          rect(x, y - 40, 79, 30);
+    void desenha(PImage imgItem, int x, int y, Item atual) {
+        quant2[atual.valor - 1]++;
+        if(quant2[atual.valor - 1] == 1){
+          image(imgItem, x, y, 70, 70);
+          x2[atual.valor - 1] = x;
+          y3[atual.valor -1] = y;
+        }else{
+          image(imgItem, x2[atual.valor - 1], y3[atual.valor -1], 70, 70);
+        }
+        if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+          fill(0);
+          stroke(255);
+          rect(x2[atual.valor - 1], y3[atual.valor -1] - 40, 75, 30);
           fill(255);
           textSize(10);
-          text("VALOR: " + atual.valor, 86, 30);
+          text("VALOR: " + atual.valor, x2[atual.valor - 1] + 45, y3[atual.valor -1] - 25);
+          text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 73, y3[atual.valor -1] - 15);
         }
+        println(x2[atual.valor - 1], y3[atual.valor -1]);
     }
 }

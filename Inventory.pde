@@ -115,23 +115,40 @@ class Inventory {
     }
 
     void desenha(PImage imgItem, int x, int y, Item atual) {
+        
         quant2[atual.valor - 1]++;
+        println(quant2[atual.valor - 1]);
+        
         if(quant2[atual.valor - 1] == 1){
+          
+        
           image(imgItem, x, y, 70, 70);
           x2[atual.valor - 1] = x;
           y3[atual.valor -1] = y;
         }else{
           image(imgItem, x2[atual.valor - 1], y3[atual.valor -1], 70, 70);
         }
-        if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
-          fill(0);
-          stroke(255);
-          rect(x2[atual.valor - 1], y3[atual.valor -1] - 40, 75, 30);
-          fill(255);
-          textSize(10);
-          text("VALOR: " + atual.valor, x2[atual.valor - 1] + 45, y3[atual.valor -1] - 25);
-          text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 73, y3[atual.valor -1] - 15);
+        if(y3[atual.valor -1] == 502){
+          if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+            fill(0);
+            stroke(255);
+            rect(x2[atual.valor - 1], y3[atual.valor -1] + 90, 75, 30);
+            fill(255);
+            textSize(10);
+            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 45, y3[atual.valor -1] + 105);
+            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 73, y3[atual.valor -1] + 115);
+          }
+        }else{
+          if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+            fill(0);
+            stroke(255);
+            rect(x2[atual.valor - 1], y3[atual.valor -1] - 40, 75, 30);
+            fill(255);
+            textSize(10);
+            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 45, y3[atual.valor -1] - 25);
+            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 73, y3[atual.valor -1] - 15);
+          }
         }
-        println(x2[atual.valor - 1], y3[atual.valor -1]);
+        
     }
 }

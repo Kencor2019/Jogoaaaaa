@@ -260,6 +260,9 @@ void movePlayer()
       itens[9]++;
     } 
     
+    for (int l = 0; l < 10; l++) {
+        inventario.quant2[l] = 0;
+     }
     inventario.add(nextCell.value);
     score += nextCell.value;
     player.tipoDaCelula = "grama";

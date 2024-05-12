@@ -1,10 +1,11 @@
 class Inventory {
     Item cabeca;
-    PImage fundo, vent, despause;
+    PImage fundo, vent, despause, tela;
     public int score, restante, tempoDecorrido, soma, tempoAoPausar;
     int x, y1, y2;
     public int[] quant, q, quant2;
     int[] x2, y3;
+    int[] ordenado, aux;
 
     Inventory(PImage fundo, PImage vent, int restante, int score, int tempoDecorrido, int soma) {
         this.despause = loadImage("despause.png");
@@ -29,6 +30,8 @@ class Inventory {
         for (int i = 0; i < 10; i++) {
             this.quant2[i] = 0;
         }
+        this.ordenado = new int[10];
+        this.aux = new int[10];
     }
 
     void add(int valor) {
@@ -114,7 +117,9 @@ class Inventory {
         println(quant2[atual.valor - 1]);
         
         if(quant2[atual.valor - 1] == 1){
-          
+          for(int i = 0; i < 10; i++){
+            aux[i] = q[atual.valor - 1]* (atual.valor);
+          }
         
           image(imgItem, x, y, 70, 70);
           x2[atual.valor - 1] = x;
@@ -152,5 +157,8 @@ class Inventory {
           }
         }
         
+    }
+    void bubbleSort(){
+       
     }
 }

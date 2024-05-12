@@ -1,4 +1,4 @@
-PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause, fundoInventario, vent, telinha, telona, playagain, barraverde, GameOver;
+PImage imgGrama, imgArvore, imgJogador, imgItem, imgMenu, imgConfig, imgStart, imgQuit, Girar, imgPause, fundoInventario, vent, telinha, telona, playagain, barraverde, GameOver, emergencia, imgInv;
 
 int adm = 3;
 int linhas = 30; 
@@ -24,6 +24,7 @@ boolean paused, jogoPausado;
 int startAnim, telinhaAnim;
 boolean settings;
 boolean ended;
+boolean bubble;
 float startbut, startadder;
 float girar;
 
@@ -36,6 +37,7 @@ void setup() {
   jogoPausado = false;
   settings = false;
   ended = false;
+  bubble = false;
   
   GameOver = loadImage("GameOver.png");
   barraverde = loadImage("barraverde.png");
@@ -49,6 +51,8 @@ void setup() {
   Girar = loadImage("preto.png");
   fundoInventario = loadImage("fundoEstrelado.png");
   vent = loadImage("vent.png");
+  emergencia = loadImage("emergencia.png");
+  imgInv = loadImage("imgInv.png");
   Girar.resize(300, 300);
   startbut = 200;
   
@@ -64,6 +68,8 @@ void draw(){
   if(ended == true) {
     background(0);
     image(imgQuit, 30, 650, 200, 200);
+    image(emergencia, 350, 600, 200, 200);
+    image(imgInv, 350, 810, 200, 70);
     image(playagain, 650, 625, 200, 250);
     image(barraverde, 200, 500, 50*10, 50);
     image(GameOver, 150, 50, 600, 250);
@@ -84,6 +90,7 @@ void draw(){
       jogoPausado = false;
       settings = false;
       ended = false;
+      bubble = false;
   
       
       finalfoda = 0;
@@ -93,8 +100,12 @@ void draw(){
       adm = 3;
       grid1 = new Cell[linhas][colunas];
       grid = new Cell[linhas][colunas];
-      
+      inventario = new Inventory(fundoInventario, vent, segundos, score,  tempoDecorrido, tempoAoPausar);   
     }
+    
+    if(bubble == true){
+      inventario.bubbleSort();
+    }  
     
   } else {
   if(started == false) {
@@ -198,6 +209,11 @@ void mousePressed(){
    } else if (mouseX >= 5 && mouseX <= 35 && mouseY >= 45 && mouseY <= 75 && jogoPausado ==  true) {
      jogoPausado = false;  
    }
+   if(mouseX >= 350 && mouseX <= 550 && mouseY >= 600 && mouseY <= 800 && bubble == false){
+      bubble = true;
+   } else if(mouseX >= 350 && mouseX <= 550 && mouseY >= 600 && mouseY <= 800 && bubble == true){//tem q trocar isso
+     bubble = false;
+   }
 }
 
 void keyPressed(){
@@ -289,11 +305,6 @@ void desenhaMenu()
     image(imgMenu, 0, +startAnim, width, height);
     image(imgQuit, 675, 75+startAnim, 100, 100);
     starter();
-}
-
-void ender() 
-{
-
 }
 
 void starter() 
@@ -408,11 +419,6 @@ void gridDeCima()
  
  void gameOver() {
    ended = true;
-  textAlign(CENTER);
-  textSize(30);
-  fill(0);
-  text("Fim do jogo!", width/2, height/2 - 20);
-  text("Seu score: " + score, width/2, height/2 + 20);
 }
 
 // Função para atualizar o score quando o jogador coleta um item

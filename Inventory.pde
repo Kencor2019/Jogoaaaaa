@@ -124,23 +124,31 @@ class Inventory {
         }
         if(y3[atual.valor -1] == 502){
           if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+            image(imgItem, 350, 600, 200, 200);
+            textSize(50);
+            fill(255);
+            text(atual.nome, 530, 850);
             fill(0);
             stroke(255);
-            rect(x2[atual.valor - 1], y3[atual.valor -1] + 90, 75, 30);
-            fill(255);
-            textSize(10);
-            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 45, y3[atual.valor -1] + 105);
-            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 73, y3[atual.valor -1] + 115);
+            rect(x2[atual.valor - 1] - 30, y3[atual.valor -1] + 85, 150, 60);
+            fill(255, 0, 0);
+            textSize(20);
+            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 57, y3[atual.valor -1] + 130);
+            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 112, y3[atual.valor -1] + 112);
           }
         }else{
           if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+            image(imgItem, 350, 600, 200, 200);
+            textSize(50);
+            fill(255);
+            text(atual.nome, 530, 850);
             fill(0);
             stroke(255);
-            rect(x2[atual.valor - 1], y3[atual.valor -1] - 40, 75, 30);
-            fill(255);
-            textSize(10);
-            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 45, y3[atual.valor -1] - 25);
-            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 73, y3[atual.valor -1] - 15);
+            rect(x2[atual.valor - 1] - 30, y3[atual.valor -1] - 70, 150, 60);
+            fill(255, 0, 0);
+            textSize(20);
+            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 57, y3[atual.valor -1] - 25);
+            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 112, y3[atual.valor -1] - 43);
           }
         }
         

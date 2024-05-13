@@ -180,9 +180,9 @@ void draw(){
   desenhaMapa() ;
   
   
-  if(jogoPausado == true){
+  if(jogoPausado == true){//Pâmela
       tempoAoPausar = inventario.mostra();
-   }else{
+   }else{//Pâmela
       timescore();
     }
     
@@ -256,31 +256,31 @@ void movePlayer()
   if (nextCell != null && !nextCell.tipoDaCelula.equals("árvore") && !nextCell.tipoDaCelula.equals("grama")) {
     if(nextCell.tipoDaCelula.equals("folha")) {
       itens[0]++;
-    } else if(nextCell.tipoDaCelula.equals("verde")) {
+    } else if(nextCell.tipoDaCelula.equals("verde")) {//Pâmela
       itens[1]++;
-    } else if(nextCell.tipoDaCelula.equals("gato")) {
+    } else if(nextCell.tipoDaCelula.equals("gato")) {//Pâmela
       itens[2]++;
-    } else if(nextCell.tipoDaCelula.equals("ovo")) {
+    } else if(nextCell.tipoDaCelula.equals("ovo")) {//Pâmela
       itens[3]++;
-    } else if(nextCell.tipoDaCelula.equals("abobora")) {
+    } else if(nextCell.tipoDaCelula.equals("abobora")) {//Pâmela
       itens[4]++;
-    } else if(nextCell.tipoDaCelula.equals("papel")) {
+    } else if(nextCell.tipoDaCelula.equals("papel")) {//Pâmela
       itens[5]++;
-    } else if(nextCell.tipoDaCelula.equals("cachorro")) {
+    } else if(nextCell.tipoDaCelula.equals("cachorro")) {//Pâmela
       itens[6]++;
-    } else if(nextCell.tipoDaCelula.equals("robo")) {
+    } else if(nextCell.tipoDaCelula.equals("robo")) {//Pâmela
       itens[7]++;
-    } else if(nextCell.tipoDaCelula.equals("chapeu")) {
+    } else if(nextCell.tipoDaCelula.equals("chapeu")) {//Pâmela
       itens[8]++;
-    } else if(nextCell.tipoDaCelula.equals("ET")) {
+    } else if(nextCell.tipoDaCelula.equals("ET")) {//Pâmela
       itens[9]++;
     } 
     
     for (int l = 0; l < 10; l++) {
         inventario.quant2[l] = 0;
      }
-    inventario.add(nextCell.value);
-    score += nextCell.value;
+    inventario.add(nextCell.value); //Esse não Pâmela
+    score += nextCell.value;//Pâmela
     player.tipoDaCelula = "grama";
     player.img = imgGrama;
     player = nextCell;
@@ -381,7 +381,7 @@ void gridDeCima()
   }
 }
  
- void timescore() 
+ void timescore()//Pâmela(essa função toda)
  {
   tempoDecorrido = millis();
   int tempoRestante = duracaoPartida + tempoAoPausar - tempoDecorrido;
@@ -419,9 +419,4 @@ void gridDeCima()
  
  void gameOver() {
    ended = true;
-}
-
-// Função para atualizar o score quando o jogador coleta um item
-void coletarItem(int valorDoItem) {
-  score += valorDoItem;
 }

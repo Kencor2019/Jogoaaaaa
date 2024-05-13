@@ -84,11 +84,11 @@ class Inventory {
         fill(0);
         text("Score: " + score, width - 10, 30);
 
-        tempoAoPausar = millis() - tempoDecorrido + soma;
+        tempoAoPausar = millis() - tempoDecorrido + soma;//Pâmela
 
         
         lista();
-        return tempoAoPausar;
+        return tempoAoPausar;//Pâmela
     }
 
     void lista() {
@@ -114,7 +114,6 @@ class Inventory {
     void desenha(PImage imgItem, int x, int y, Item atual) {
         
         quant2[atual.valor - 1]++;
-        println(quant2[atual.valor - 1]);
         
         if(quant2[atual.valor - 1] == 1){
           for(int i = 0; i < 10; i++){
@@ -159,6 +158,17 @@ class Inventory {
         
     }
     void bubbleSort(){
+       int numAtual;
+       int total = 10;
        
+       for(int i = 0; i < total - 1; i++){
+         for(int j = 0; j < total - i - 1; j++){
+           if(aux[j] > aux[j + 1]){
+             numAtual = aux[j];
+             aux[j] = aux[j + 1];
+             aux[j + 1] = numAtual;
+           }
+         }
+       }
     }
 }

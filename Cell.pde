@@ -19,7 +19,7 @@ class Cell {
     this.img = img;
   }
   
-  void display(){
+  void display(){//Pâmela(isso é pra pegar os valores dos itens pra mandar pro score)
       
       if(tipoDaCelula == "grama" && top == 1) 
       {

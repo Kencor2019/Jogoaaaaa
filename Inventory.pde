@@ -35,7 +35,10 @@ class Inventory {
         for (int i = 0; i < 10; i++) {
             this.auxiliar[i] = 0;
         }
-        this.posicao = new int [10];
+        this.posicao = new int[10];
+        for (int i = 0; i < 10; i++) {
+            this.posicao[i] = i;
+        }
         this.conta = new int[10];
         for (int i = 0; i < 10; i++) {
             this.conta[i] = 0;
@@ -89,27 +92,27 @@ class Inventory {
 
         textAlign(RIGHT);
         fill(255, 255, 255);
-        rect( width - 105, 10, 100, 30);
+        rect(width - 105, 10, 100, 30);
         fill(0);
         text("Score: " + score, width - 10, 30);
 
-        tempoAoPausar = millis() - tempoDecorrido + soma;//Pâmela
+        tempoAoPausar = millis() - tempoDecorrido + soma;
 
         
         lista();
-        return tempoAoPausar;//Pâmela
+        return tempoAoPausar;
     }
 
     void lista() {
         Item atual = cabeca;
         int posicaoX = x + 2;
-        int posicaoY = y1 +2;
+        int posicaoY = y1 + 2;
        
         while (atual != null) {
           
             desenha(atual.retornaImg(), posicaoX, posicaoY, atual);
             
-            if(quant2[atual.valor - 1] == 1){
+            if (quant2[atual.valor - 1] == 1) {
               posicaoX += 80;
               if (posicaoX >= x + 5 * 80) {
                   posicaoX = x + 2;
@@ -124,41 +127,41 @@ class Inventory {
         
         quant2[atual.valor - 1]++;
         
-        if(quant2[atual.valor - 1] == 1){
+        if (quant2[atual.valor - 1] == 1) {
         
           image(imgItem, x, y, 70, 70);
           x2[atual.valor - 1] = x;
-          y3[atual.valor -1] = y;
-        }else{
-          image(imgItem, x2[atual.valor - 1], y3[atual.valor -1], 70, 70);
+          y3[atual.valor - 1] = y;
+        } else {
+          image(imgItem, x2[atual.valor - 1], y3[atual.valor - 1], 70, 70);
         }
-        if(y3[atual.valor -1] == 502){
-          if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+        if (y3[atual.valor - 1] == 502) {
+          if (mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY >= y3[atual.valor - 1]  && mouseY <= 70 + y3[atual.valor - 1]) {
             image(imgItem, 350, 600, 200, 200);
             textSize(50);
             fill(255);
             text(atual.nome, 530, 850);
             fill(0);
             stroke(255);
-            rect(x2[atual.valor - 1] - 30, y3[atual.valor -1] + 85, 150, 60);
+            rect(x2[atual.valor - 1] - 30, y3[atual.valor - 1] + 85, 150, 60);
             fill(255, 0, 0);
             textSize(20);
-            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 57, y3[atual.valor -1] + 130);
-            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 112, y3[atual.valor -1] + 112);
+            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 57, y3[atual.valor - 1] + 130);
+            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 112, y3[atual.valor - 1] + 112);
           }
-        }else{
-          if(mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY>= y3[atual.valor -1]  && mouseY <= 70 + y3[atual.valor -1]){
+        } else {
+          if (mouseX >= x2[atual.valor - 1] && mouseX <= x2[atual.valor - 1] + 70 && mouseY >= y3[atual.valor - 1]  && mouseY <= 70 + y3[atual.valor - 1]) {
             image(imgItem, 350, 600, 200, 200);
             textSize(50);
             fill(255);
             text(atual.nome, 530, 850);
             fill(0);
             stroke(255);
-            rect(x2[atual.valor - 1] - 30, y3[atual.valor -1] - 70, 150, 60);
+            rect(x2[atual.valor - 1] - 30, y3[atual.valor - 1] - 70, 150, 60);
             fill(255, 0, 0);
             textSize(20);
-            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 57, y3[atual.valor -1] - 25);
-            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 112, y3[atual.valor -1] - 43);
+            text("VALOR: " + atual.valor, x2[atual.valor - 1] + 57, y3[atual.valor - 1] - 25);
+            text("QUANTIDADE: " + q[atual.valor - 1], x2[atual.valor - 1] + 112, y3[atual.valor - 1] - 43);
           }
         }
         
@@ -169,16 +172,18 @@ class Inventory {
        int total = 10;
        int y = 0;
        PImage imgItem, xis;
+       
        Item atual = cabeca;
        
        xis = loadImage("xis.png");
        
        //Coloca os valores desordenados no vetor
-       while(atual.proximo != null){
+       while (atual != null) {
          
-             if(conta[atual.valor - 1] == 0){
-                auxiliar[y] = q[atual.valor - 1]* (atual.valor);
-                posicao[y] = y;
+             if (conta[atual.valor - 1] == 0 && y < 10) {
+                auxiliar[y] = q[atual.valor - 1] * (atual.valor);
+                posicao[y] = auxiliar[y]/q[atual.valor - 1];
+                
                 y++;
              }
              conta[atual.valor - 1]++;
@@ -187,11 +192,10 @@ class Inventory {
          atual = atual.proximo;
        }
        
-       
        //Ordenação
-       for(int i = 0; i < total - 1; i++){
-         for(int j = 0; j < total - i - 1; j++){
-           if(auxiliar[j] < auxiliar[j + 1]){
+       for (int i = 0; i < total - 1; i++) {
+         for (int j = 0; j < total - i - 1; j++) {
+           if (auxiliar[j] < auxiliar[j + 1]) {
              numAtual = auxiliar[j];
              auxiliar[j] = auxiliar[j + 1];
              auxiliar[j + 1] = numAtual;
@@ -203,15 +207,14 @@ class Inventory {
          }
        }
        
-       //Mostra a ordenação
+       // Mostra a ordenação
        fill(0);
        rect(0, 0, 900, 900);
        
-       //Botao de sair
+       // Botao de sair
        image(xis, 800, 30, 80, 80);
        
-       //falta os quadradinhos e os itens
-       //Desenha os quadradinhos 
+       // Desenha os quadradinhos 
        stroke(255);
        textSize(70);
        int w = 6, s = 1;
@@ -223,9 +226,9 @@ class Inventory {
             
             fill(255, 0, 0);
             text(s, x + (80 * i) + 20, 785);
-            if(w != 10){
+            if (w != 10) {
               text(w, x + (80 * i) + 20, 865);
-            }else{
+            } else {
               text(w, x + (80 * i) + 5, 865);
             }
             s++;
@@ -233,33 +236,35 @@ class Inventory {
             
             
         }
-       for(int i = 0 ; i < 10; i ++){
+        
+       for (int i = 0 ; i < 10; i ++) {
          
-           //desenha os itens
+           // Desenha os itens
            fill(255);
            
-           if(i < 5 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 720 && mouseY < 800){
+           if (i < 5 && mouseX > x + (80 * i) && mouseX < x + (80 * i) + 80 && mouseY > 720 && mouseY < 800) {
              textSize(100);
-             text(auxiliar[i], 410, 250); 
+             text((auxiliar[i] == 0) ? "Tenta pegar algo" : Integer.toString(auxiliar[i]), (auxiliar[i] == 0) ? 100:410, 250);
              
              textSize(50);
-             Item n = new Item(posicao[i] + 1);
              
+             Item n = (auxiliar[i] == 0)? new Item(30) : new Item(posicao[i]);
+               
              imgItem = n.retornaImg();
              image(imgItem, 350, 350, 200, 200);
              fill(255);
-             text(n.nome, 390, 610);
-           }else if(i >= 5 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 800 && mouseY < 880){
-             println("oi");
+             text((auxiliar[i] == 0)? "NADA" : n.nome, 390, 610);
+           } else if (i >= 5 && mouseX > x + (80 * (i - 5)) && mouseX < x + (80 * (i - 5)) + 80 && mouseY > 800 && mouseY < 880) {
              textSize(100);
-             text(auxiliar[i], 410, 250);
+             text((auxiliar[i] == 0) ? "Tenta pegar algo" : Integer.toString(auxiliar[i]), (auxiliar[i] == 0) ? 100:410, 250);
              
              textSize(50);
-             Item n = new Item(posicao[i] + 1);
+             Item n = (auxiliar[i] == 0)? new Item(30) : new Item(posicao[i]);
+              
              imgItem = n.retornaImg();
              image(imgItem, 350, 350, 200, 200); 
              fill(255);
-             text(n.nome, 390, 610);
+             text((auxiliar[i] == 0)? "NADA" : n.nome, 390, 610);
              
            }
          

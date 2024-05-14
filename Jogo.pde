@@ -163,7 +163,7 @@ void draw(){
       tempoInicio = 60000;
     }
     if(mousePressed && mouseX >= 665 && mouseX <= 765 && mouseY >= 400 && mouseY <= 440) {
-      tempoInicio = 30000;
+      tempoInicio = 9000;
     }
       
     }

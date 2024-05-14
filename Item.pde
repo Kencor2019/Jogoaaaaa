@@ -38,6 +38,8 @@ class Item {
         } else if (valor == 10) {
             this.imagem = loadImage("ET.png");
             this.nome = "OVNI   ";//F
+        } else {
+            this.imagem = loadImage("bunequinho.png");  
         }
     }
 

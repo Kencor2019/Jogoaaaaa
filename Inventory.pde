@@ -32,6 +32,9 @@ class Inventory {
         }
         this.ordenado = new int[10];
         this.auxiliar = new int[10];
+        for (int i = 0; i < 10; i++) {
+            this.auxiliar[i] = 0;
+        }
         this.posicao = new int [10];
         this.conta = new int[10];
         for (int i = 0; i < 10; i++) {
@@ -164,6 +167,7 @@ class Inventory {
     void bubbleSort(){
        int numAtual, posAtual;
        int total = 10;
+       int y = 0;
        PImage imgItem, xis;
        Item atual = cabeca;
        
@@ -172,19 +176,17 @@ class Inventory {
        //Coloca os valores desordenados no vetor
        while(atual.proximo != null){
          
-           for(int i = 0; i < 10; i++){
              if(conta[atual.valor - 1] == 0){
-              auxiliar[i] = q[atual.valor - 1]* (atual.valor);
-              println(atual.valor);
-              println(q[atual.valor - 1]);
-              println(auxiliar[i]);
-              posicao[i] = i;
+                auxiliar[y] = q[atual.valor - 1]* (atual.valor);
+                posicao[y] = y;
+                y++;
              }
              conta[atual.valor - 1]++;
-           }
+             
+           
          atual = atual.proximo;
        }
-       //println(auxiliar);
+       
        
        //Ordenação
        for(int i = 0; i < total - 1; i++){
@@ -208,6 +210,7 @@ class Inventory {
        //Botao de sair
        image(xis, 800, 30, 80, 80);
        
+       //falta os quadradinhos e os itens
        //Desenha os quadradinhos 
        stroke(255);
        textSize(70);
@@ -230,23 +233,24 @@ class Inventory {
             
             
         }
-       
        for(int i = 0 ; i < 10; i ++){
          
            //desenha os itens
            fill(255);
            
-           if(i < 6 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 720 && mouseY < 800){
+           if(i < 5 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 720 && mouseY < 800){
              textSize(100);
              text(auxiliar[i], 410, 250); 
              
              textSize(50);
              Item n = new Item(posicao[i] + 1);
+             
              imgItem = n.retornaImg();
              image(imgItem, 350, 350, 200, 200);
              fill(255);
              text(n.nome, 390, 610);
-           }else if(i >= 6 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 800 && mouseY < 880){
+           }else if(i >= 5 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 800 && mouseY < 880){
+             println("oi");
              textSize(100);
              text(auxiliar[i], 410, 250);
              

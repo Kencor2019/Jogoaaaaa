@@ -163,7 +163,7 @@ void draw(){
       tempoInicio = 60000;
     }
     if(mousePressed && mouseX >= 665 && mouseX <= 765 && mouseY >= 400 && mouseY <= 440) {
-      tempoInicio = 30000;
+      tempoInicio = 9000;
     }
       
     }
@@ -211,7 +211,7 @@ void mousePressed(){
    }
    if(mouseX >= 350 && mouseX <= 550 && mouseY >= 600 && mouseY <= 800 && bubble == false){
       bubble = true;
-   } else if(mouseX >= 350 && mouseX <= 550 && mouseY >= 600 && mouseY <= 800 && bubble == true){//tem q trocar isso
+   } else if(mouseX >= 800 && mouseX <= 880 && mouseY >= 30 && mouseY <= 110 && bubble == true){//tem q trocar isso
      bubble = false;
    }
 }

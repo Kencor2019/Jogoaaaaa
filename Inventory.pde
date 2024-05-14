@@ -5,7 +5,7 @@ class Inventory {
     int x, y1, y2;
     public int[] quant, q, quant2;
     int[] x2, y3;
-    int[] ordenado, aux;
+    int[] ordenado, auxiliar, posicao, conta;
 
     Inventory(PImage fundo, PImage vent, int restante, int score, int tempoDecorrido, int soma) {
         this.despause = loadImage("despause.png");
@@ -31,7 +31,12 @@ class Inventory {
             this.quant2[i] = 0;
         }
         this.ordenado = new int[10];
-        this.aux = new int[10];
+        this.auxiliar = new int[10];
+        this.posicao = new int [10];
+        this.conta = new int[10];
+        for (int i = 0; i < 10; i++) {
+            this.conta[i] = 0;
+        }
     }
 
     void add(int valor) {
@@ -46,6 +51,7 @@ class Inventory {
             aux.proximo = novoItem;
         }
         q[valor - 1]++;
+        
     }
 
     int mostra() {
@@ -116,9 +122,6 @@ class Inventory {
         quant2[atual.valor - 1]++;
         
         if(quant2[atual.valor - 1] == 1){
-          for(int i = 0; i < 10; i++){
-            aux[i] = q[atual.valor - 1]* (atual.valor);
-          }
         
           image(imgItem, x, y, 70, 70);
           x2[atual.valor - 1] = x;
@@ -157,18 +160,107 @@ class Inventory {
         }
         
     }
+    
     void bubbleSort(){
-       int numAtual;
+       int numAtual, posAtual;
        int total = 10;
+       PImage imgItem, xis;
+       Item atual = cabeca;
        
+       xis = loadImage("xis.png");
+       
+       //Coloca os valores desordenados no vetor
+       while(atual.proximo != null){
+         
+           for(int i = 0; i < 10; i++){
+             if(conta[atual.valor - 1] == 0){
+              auxiliar[i] = q[atual.valor - 1]* (atual.valor);
+              println(atual.valor);
+              println(q[atual.valor - 1]);
+              println(auxiliar[i]);
+              posicao[i] = i;
+             }
+             conta[atual.valor - 1]++;
+           }
+         atual = atual.proximo;
+       }
+       //println(auxiliar);
+       
+       //Ordenação
        for(int i = 0; i < total - 1; i++){
          for(int j = 0; j < total - i - 1; j++){
-           if(aux[j] > aux[j + 1]){
-             numAtual = aux[j];
-             aux[j] = aux[j + 1];
-             aux[j + 1] = numAtual;
+           if(auxiliar[j] < auxiliar[j + 1]){
+             numAtual = auxiliar[j];
+             auxiliar[j] = auxiliar[j + 1];
+             auxiliar[j + 1] = numAtual;
+             posAtual = posicao[j];
+             posicao[j] = posicao[j + 1];
+             posicao[j + 1] = posAtual;
+            
            }
          }
        }
+       
+       //Mostra a ordenação
+       fill(0);
+       rect(0, 0, 900, 900);
+       
+       //Botao de sair
+       image(xis, 800, 30, 80, 80);
+       
+       //Desenha os quadradinhos 
+       stroke(255);
+       textSize(70);
+       int w = 6, s = 1;
+       for (int i = 0; i < 5; i++) {
+            
+            fill(0);
+            rect(x + (80 * i), 720, 80, 80);
+            rect(x + (80 * i), 800, 80, 80);
+            
+            fill(255, 0, 0);
+            text(s, x + (80 * i) + 20, 785);
+            if(w != 10){
+              text(w, x + (80 * i) + 20, 865);
+            }else{
+              text(w, x + (80 * i) + 5, 865);
+            }
+            s++;
+            w++;
+            
+            
+        }
+       
+       for(int i = 0 ; i < 10; i ++){
+         
+           //desenha os itens
+           fill(255);
+           
+           if(i < 6 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 720 && mouseY < 800){
+             textSize(100);
+             text(auxiliar[i], 410, 250); 
+             
+             textSize(50);
+             Item n = new Item(posicao[i] + 1);
+             imgItem = n.retornaImg();
+             image(imgItem, 350, 350, 200, 200);
+             fill(255);
+             text(n.nome, 390, 610);
+           }else if(i >= 6 && mouseX > x + (80* i) && mouseX < x + (80* i) + 80 && mouseY > 800 && mouseY < 880){
+             textSize(100);
+             text(auxiliar[i], 410, 250);
+             
+             textSize(50);
+             Item n = new Item(posicao[i] + 1);
+             imgItem = n.retornaImg();
+             image(imgItem, 350, 350, 200, 200); 
+             fill(255);
+             text(n.nome, 390, 610);
+             
+           }
+         
+       }    
+        
     }
+    
 }
